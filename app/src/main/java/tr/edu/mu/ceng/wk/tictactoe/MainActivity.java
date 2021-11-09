@@ -60,12 +60,17 @@ public class MainActivity extends AppCompatActivity {
 
             if(gameEnded(row, col) == -1)
                 player1Turn = !player1Turn;
-            else if(gameEnded(row, col) == 0)
+            else if(gameEnded(row, col) == 0) {
                 Toast.makeText(MainActivity.this, "Draw!", Toast.LENGTH_LONG).show();
-            else if(gameEnded(row, col) == 1)
+                onDestroy();
+            }
+            else if(gameEnded(row, col) == 1) {
                 Toast.makeText(MainActivity.this, "Player 1 wins!", Toast.LENGTH_LONG).show();
+                onDestroy();
+            }
             else{
                 Toast.makeText(MainActivity.this, "Player 2 wins!", Toast.LENGTH_LONG).show();
+                onDestroy();
             }
         }
 
@@ -153,5 +158,18 @@ public class MainActivity extends AppCompatActivity {
                    button.setText("O");
                 }
             }
+    }
+
+    @Override
+    protected void onDestroy() {
+        TableLayout table = findViewById(R.id.board);
+        for(int i = 0; i < 3; i++) {
+            TableRow row = (TableRow) table.getChildAt(i);
+            for (int j = 0; j < 3; j++) {
+                Button button = (Button) row.getChildAt(j);
+                button.setEnabled(false);
+            }
+        }
+        super.onDestroy();
     }
 }
